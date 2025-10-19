@@ -21,30 +21,41 @@ namespace C__Health_System
         static int lives = 3;
         static void Main(string[] args)
         {
-            //Showcasing ShowHud() working
+            //UnitTestHealthSystem();
+
+            //Showcasing ShowHud() 
+            //ShowHUD();                  // working
+            //ResetGame();                // Showcasing ResetGame() working, although it doesnt fix anything yet, we reuse it a ton in the code.
+
+
+            //Showcasing Heal()
+            //health = 1;                 // health is being set to 1 for demonstration.
+            //Heal(-10);                  // error message as intended for values less than 1.
+            //Heal(50);                   // health goes up by 50
+            //Heal(150);                  // healing over 100 without going over maximum
+
+            ////Showcasing RegenerateShield()
             //ResetGame();
-            //ShowHUD();
+            //shield = 1;                 // shield is being set to 1 for demonstration.
+            //RegenerateShield(-10);      // error message as intended for values less than 1.
+            //RegenerateShield(50);       // shield goes up by 50
+            //RegenerateShield(150);      // shield increased by over 100 without going over maximum
 
-            //Showcasing Healing -10 not working, healing 50, and healing over 100, 
-            //ResetGame();
-            //health = 1;         // health is being set to 1 for demonstration.
-            //Heal(-10);
-            //Heal(50);
-            //Heal(150);
+            ////Showcasing TakeDamage() with -10 damage not working, then taking 50 damage to shields first, then 100 damage to show the damage transfers over correctly from shield to health, then showing that death doesn't automatically respawn you.
+            //TakeDamage(-10);            // error message as intended for values less than 1.
+            //TakeDamage(50);             // deals 50 damage to shields first
+            //TakeDamage(100);            // deals 50 damage to shields first then the remaining damage is added to health.
+            //TakeDamage(300);            // On brightspace you say revive() should be called when you die but in class you said you should not have it call when you have 0 health left because it breaks the code we needed to run it through. That's why my code doesn't do that.
 
-            //Showcasing Shield
-            //ResetGame();
-            //shield = 1;
-            //RegenerateShield(-10);
-            //RegenerateShield(50);
-            //RegenerateShield(150);
-
-
-
-
-
-
-
+            ////Showcasing Revive()
+            //shield = 0;
+            //health = 1;
+            //lives = 1;                  // This is to make him have try to revive with health remaining, which will fail
+            //Revive();                   // showcasing a failed revive while alive
+            //health = 0;                 // This is to make him dead so we can use revive
+            //Revive();                   // a successful revive
+            //health = 0;                 // this is to show what happens if you try and revive with no lives left.
+            //Revive();                   // a failed revive while dead
 
 
 
@@ -56,7 +67,12 @@ namespace C__Health_System
 
 
 
-            UnitTestHealthSystem();
+
+
+
+
+
+
             //UnitTestXPSystem();
         }
         // v NO CHANGING ANYTHING IN HERE v
@@ -266,6 +282,8 @@ namespace C__Health_System
                 healthStatus = (" (Perfect Health)");
             }
             Console.WriteLine(healthStatus);
+
+            if (lives > 99) { lives = 99; }                         // just so lives have the 99 range technical specification even though it goes unused.
             Console.WriteLine($"Lives: {lives}");
 
             Console.ReadKey();
@@ -276,14 +294,12 @@ namespace C__Health_System
         {
             if (damage < 0)
             {
-                ShowHUD();
-                Console.ForegroundColor = ConsoleColor.Red;                         //I fought for three hours trying to make this work
+                Console.ForegroundColor = ConsoleColor.Red;                         //I fought for three hours trying to make this work so the console would show up below. I don't know why I did that.
                 Console.WriteLine("Error detected: Damage can't be negative.\n");
                 Console.ResetColor();
+                ShowHUD();
                 return;
             }
-
-            ShowHUD();
 
             int damagedealt = damage;
             shield -= damagedealt;
@@ -294,15 +310,17 @@ namespace C__Health_System
                 health -= piercingDamage;
             }
             if (health < 0) { health = 0; }
+
+            ShowHUD();                  // NEEDS TO BE CALLED LAST OTHERWISE YOU START DEALING 90 DAMAGE AT THE BEGINNING OF UNITTESTHEALTHSYSTEM() FOR NO REASON - 12:05 AM
         }
         static void Heal(int hp)
         {
             if (hp < 0)
             {
-                ShowHUD();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error detected: can't heal 0 health.\n");      
-                Console.ResetColor();                                             
+                Console.ResetColor();
+                ShowHUD();
                 return;
             }
 
@@ -330,12 +348,25 @@ namespace C__Health_System
         }
         static void Revive()
         {
-            if(health <= 0 && lives >= 1)
+            if(health >= 1)
             {
-                health = 100;
-                shield = 100;
-                --lives;
+                Console.ForegroundColor = ConsoleColor.Red;                         
+                Console.WriteLine("Error detected: you cant revive a alive guy.\n");
+                Console.ResetColor();
+                ShowHUD();
+                return;
             }
+            else if (lives < 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error detected: You have no more lives left.\n");
+                Console.ResetColor();
+                ShowHUD();
+                return;
+            }
+            health = 100;
+            shield = 100;
+            --lives;
 
             ShowHUD();
         }
@@ -344,12 +375,12 @@ namespace C__Health_System
         {
             Console.WriteLine("New Game...");
 
-            ShowHUD();
             health = 100;
             shield = 100;
             healthStatus = (" (Perfect Health)");
             lives = 3;
 
+            ShowHUD();
         }
     }
 }
@@ -357,17 +388,6 @@ namespace C__Health_System
 //C#: Health System:
 
 //Code a health system (and an xp system) and showcase that it works.
-
-//In addition to showcasing your systems work, you must also incorporate provided unit test code -- copy the unit test methods I created for you into your own project. These unit test will assess your code -- this will determine your grade.
-
-//range checking = clamp variables to their ranges
-//error checking = handles (incorrectly) passing in negative numbers, such as TakeDamage(-10)
-//display error message that describes what happened
-
-//do not modify values
-//no actual gameplay required
-//no hard coding
-
 
 //Extra Mile - XP/Level Up System - Technical Specifications:
 
@@ -400,11 +420,6 @@ namespace C__Health_System
 //useful for testing
 //evolve methods such as ShowHUD() showing changes such as +5 and -10 after the values
 //Purpose:
-
-//To learn fundamentals of C# programming, outside of Unity.
-//To code a program that demonstrates your knowledge of variables, methods, and conditionals.
-//To being to familiarize yourself with the idea of systems and APIs.
-//Minimal Requirements:
 
 //All minimal requirements must be met, else work is unaccepted and evaluates to zero (0).
 //Submission Requirements:
