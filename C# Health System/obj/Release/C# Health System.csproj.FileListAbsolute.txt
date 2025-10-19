@@ -1,0 +1,7 @@
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\bin\Release\C# Health System.exe.config
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\bin\Release\C# Health System.exe
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\bin\Release\C# Health System.pdb
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Release\C# Health System.csproj.AssemblyReference.cache
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Release\C# Health System.csproj.CoreCompileInputs.cache
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Release\C# Health System.exe
+C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Release\C# Health System.pdb

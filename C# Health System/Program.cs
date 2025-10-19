@@ -19,43 +19,58 @@ namespace C__Health_System
         static string healthStatus = " (Perfect Health)";
         static int shield = 100;
         static int lives = 3;
+
+        static int xp = 0;
+        static int level = 1;
+
+
+
         static void Main(string[] args)
         {
-            //UnitTestHealthSystem();
+            UnitTestHealthSystem();
+            UnitTestXPSystem();
 
-            //Showcasing ShowHud() 
-            //ShowHUD();                  // working
-            //ResetGame();                // Showcasing ResetGame() working, although it doesnt fix anything yet, we reuse it a ton in the code.
+            ////Showcasing ShowHud() 
+            ShowHUD();                  // working
+            ResetGame();                // Showcasing ResetGame() working, although it doesnt fix anything yet, we reuse it a ton in the code.
 
 
-            //Showcasing Heal()
-            //health = 1;                 // health is being set to 1 for demonstration.
-            //Heal(-10);                  // error message as intended for values less than 1.
-            //Heal(50);                   // health goes up by 50
-            //Heal(150);                  // healing over 100 without going over maximum
+            ////Showcasing Heal()
+            health = 1;                 // health is being set to 1 for demonstration.
+            Heal(-10);                  // error message as intended for values less than 1.
+            Heal(50);                   // health goes up by 50
+            Heal(150);                  // healing over 100 without going over maximum
 
             ////Showcasing RegenerateShield()
-            //ResetGame();
-            //shield = 1;                 // shield is being set to 1 for demonstration.
-            //RegenerateShield(-10);      // error message as intended for values less than 1.
-            //RegenerateShield(50);       // shield goes up by 50
-            //RegenerateShield(150);      // shield increased by over 100 without going over maximum
+            ResetGame();
+            shield = 1;                 // shield is being set to 1 for demonstration.
+            RegenerateShield(-10);      // error message as intended for values less than 1.
+            RegenerateShield(50);       // shield goes up by 50
+            RegenerateShield(150);      // shield increased by over 100 without going over maximum
 
             ////Showcasing TakeDamage() with -10 damage not working, then taking 50 damage to shields first, then 100 damage to show the damage transfers over correctly from shield to health, then showing that death doesn't automatically respawn you.
-            //TakeDamage(-10);            // error message as intended for values less than 1.
-            //TakeDamage(50);             // deals 50 damage to shields first
-            //TakeDamage(100);            // deals 50 damage to shields first then the remaining damage is added to health.
-            //TakeDamage(300);            // On brightspace you say revive() should be called when you die but in class you said you should not have it call when you have 0 health left because it breaks the code we needed to run it through. That's why my code doesn't do that.
+            ResetGame();
+            TakeDamage(-10);            // error message as intended for values less than 1.
+            TakeDamage(50);             // deals 50 damage to shields first
+            TakeDamage(100);            // deals 50 damage to shields first then the remaining damage is added to health.
+            TakeDamage(300);            // On brightspace you say revive() should be called when you die but in class you said you should not have it call when you have 0 health left because it breaks the code we needed to run it through. That's why my code doesn't do that.
 
             ////Showcasing Revive()
-            //shield = 0;
-            //health = 1;
-            //lives = 1;                  // This is to make him have try to revive with health remaining, which will fail
-            //Revive();                   // showcasing a failed revive while alive
-            //health = 0;                 // This is to make him dead so we can use revive
-            //Revive();                   // a successful revive
-            //health = 0;                 // this is to show what happens if you try and revive with no lives left.
-            //Revive();                   // a failed revive while dead
+            ResetGame();
+            shield = 0; health = 1; lives = 1;  // This is to make him have try to revive with health remaining, which will fail
+            Revive();                           // showcasing a failed revive while alive
+            health = 0;                         // This is to make him dead so we can use revive
+            Revive();                           // a successful revive
+            health = 0;                         // this is to show what happens if you try and revive with no lives left.
+            Revive();                           // a failed revive while dead
+
+            //Showcasing IncreaseXP()   
+            ResetGame();
+            IncreaseXP(-10);                // error message as intended for values less than 1
+            IncreaseXP(100);                // shows 100 being the first level up breakpoint
+            IncreaseXP(100);                // shows how it increased by 100 since last level
+            IncreaseXP(100);                // shows that 200 is the correct amount of how much it needed to be increased
+            IncreaseXP(700);                // adding 700 and getting exactly level 5 proves the pattern will continue
 
 
 
@@ -71,9 +86,7 @@ namespace C__Health_System
 
 
 
-
-
-            //UnitTestXPSystem();
+            
         }
         // v NO CHANGING ANYTHING IN HERE v
         static void UnitTestHealthSystem()
@@ -209,50 +222,50 @@ namespace C__Health_System
             Console.Clear();
         }
 
-        //static void UnitTestXPSystem()
-        //{
-        //    Debug.WriteLine("Unit testing XP / Level Up System started...");
+        static void UnitTestXPSystem()
+        {
+            Debug.WriteLine("Unit testing XP / Level Up System started...");
 
-        //    // IncreaseXP()
+            // IncreaseXP()
 
-        //    // IncreaseXP() - no level up; remain at level 1
-        //    xp = 0;
-        //    level = 1;
-        //    IncreaseXP(10);
-        //    Debug.Assert(xp == 10);
-        //    Debug.Assert(level == 1);
+            // IncreaseXP() - no level up; remain at level 1
+            xp = 0;
+            level = 1;
+            IncreaseXP(10);
+            Debug.Assert(xp == 10);
+            Debug.Assert(level == 1);
 
-        //    // IncreaseXP() - level up to level 2 (costs 100 xp)
-        //    xp = 0;
-        //    level = 1;
-        //    IncreaseXP(105);
-        //    Debug.Assert(xp == 5);
-        //    Debug.Assert(level == 2);
+            // IncreaseXP() - level up to level 2 (costs 100 xp)
+            xp = 0;
+            level = 1;
+            IncreaseXP(105);
+            Debug.Assert(xp == 5);
+            Debug.Assert(level == 2);
 
-        //    // IncreaseXP() - level up to level 3 (costs 200 xp)
-        //    xp = 0;
-        //    level = 2;
-        //    IncreaseXP(210);
-        //    Debug.Assert(xp == 10);
-        //    Debug.Assert(level == 3);
+            // IncreaseXP() - level up to level 3 (costs 200 xp)
+            xp = 0;
+            level = 2;
+            IncreaseXP(210);
+            Debug.Assert(xp == 10);
+            Debug.Assert(level == 3);
 
-        //    // IncreaseXP() - level up to level 4 (costs 300 xp)
-        //    xp = 0;
-        //    level = 3;
-        //    IncreaseXP(315);
-        //    Debug.Assert(xp == 15);
-        //    Debug.Assert(level == 4);
+            // IncreaseXP() - level up to level 4 (costs 300 xp)
+            xp = 0;
+            level = 3;
+            IncreaseXP(315);
+            Debug.Assert(xp == 15);
+            Debug.Assert(level == 4);
 
-        //    // IncreaseXP() - level up to level 5 (costs 400 xp)
-        //    xp = 0;
-        //    level = 4;
-        //    IncreaseXP(499);
-        //    Debug.Assert(xp == 99);
-        //    Debug.Assert(level == 5);
+            // IncreaseXP() - level up to level 5 (costs 400 xp)
+            xp = 0;
+            level = 4;
+            IncreaseXP(499);
+            Debug.Assert(xp == 99);
+            Debug.Assert(level == 5);
 
-        //    Debug.WriteLine("Unit testing XP / Level Up System completed.");
-        //    Console.Clear();
-        //}
+            Debug.WriteLine("Unit testing XP / Level Up System completed.");
+            Console.Clear();
+        }
 
         // ^ NO CHANGING ANYTHING IN HERE ^
 
@@ -283,13 +296,38 @@ namespace C__Health_System
             }
             Console.WriteLine(healthStatus);
 
-            if (lives > 99) { lives = 99; }                         // just so lives have the 99 range technical specification even though it goes unused.
+            if (lives > 99) { lives = 99; }            // just so lives have the 99 range technical specification even though it goes unused.
             Console.WriteLine($"Lives: {lives}");
+
+            Console.WriteLine($"\nExperience: {xp}");
+            Console.WriteLine($"Level: {level}");
 
             Console.ReadKey();
 
             Console.Clear();
         }
+        static void IncreaseXP(int exp)
+        {
+            if (exp < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error detected: cant gain less than 1 experience.\n");
+                Console.ResetColor();
+                ShowHUD();
+                return;
+            }
+
+            xp += exp;
+
+            while (xp >= level * 100) // check if enough XP to level up
+            {
+                xp -= level * 100; // subtract XP needed for this level
+                level++;            // increase level
+            }
+
+            ShowHUD();
+        }
+
         static void TakeDamage(int damage)
         {
             if (damage < 0)
@@ -318,7 +356,7 @@ namespace C__Health_System
             if (hp < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Error detected: can't heal 0 health.\n");      
+                Console.WriteLine("Error detected: can't heal less than 1 health.\n");      
                 Console.ResetColor();
                 ShowHUD();
                 return;
@@ -335,7 +373,7 @@ namespace C__Health_System
             if (hp < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Error detected: can't regenerate 0 shield.\n");
+                Console.WriteLine("Error detected: can't regenerate less than 1 shield.\n");
                 Console.ResetColor();
                 ShowHUD(); return;
             }
@@ -380,6 +418,9 @@ namespace C__Health_System
             healthStatus = (" (Perfect Health)");
             lives = 3;
 
+            xp = 0;
+            level = 1;
+
             ShowHUD();
         }
     }
@@ -391,17 +432,12 @@ namespace C__Health_System
 
 //Extra Mile - XP/Level Up System - Technical Specifications:
 
-//variables:
-//xp integer; 0..(new!)
-//level integer; 1..(new!)
 //methods:
 //IncreaseXP(int exp) method
 // modifies xp and level
 //leveling up uses up xp -- this make it easier to code (new!)
 //ShowHUD() method extended
 //shows previous stats (see health system for reference)
-//shows xp
-//shows level
 //xp/level design:
 //same design as before, only now costs xp to level up -- easier to code (new!)
 //start at 0 xp

@@ -5,4 +5,3 @@ C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health Syst
 C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Debug\C# Health System.csproj.CoreCompileInputs.cache
 C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Debug\C# Health System.exe
 C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Debug\C# Health System.pdb
-C:\Users\nickp\Desktop\1 School\Code\3. Projects\C# Health System\C# Health System\obj\Debug\C# Health System.exe.config
