@@ -151,7 +151,7 @@ namespace C__Health_System
 
             // RegenerateShield()
 
-            // RegenerateShield() - normal                   // This is where I'm currently stuck.
+            // RegenerateShield() - normal
             shield = 50;
             health = 100;
             lives = 3;
@@ -240,76 +240,8 @@ namespace C__Health_System
 
         // ^ NO CHANGING ANYTHING IN HERE ^
 
-        static void Heal(int hp)
-        {
-            if (hp < 0)
-            {
-                ShowHUD();
-                //Console.ForegroundColor = ConsoleColor.Red;
-                //Console.WriteLine("\nError detected: can't heal 0 health.");      // broken, it has to due with console.Readkey and console.clear never letting it exist.
-                //Console.ResetColor();                                             // I don't have a solution for this.
-                return;
-            }
-
-            health += hp;
-
-            if (health > 100) health = 100;
-
-            ShowHUD();
-        }
-        static void RegenerateShield(int hp)
-        {
-            if (hp < 0)
-            {
-                //Console.WriteLine("Error detected: can't regenerate 0 shield.");
-                ShowHUD(); return;
-            }
-
-            shield += hp;
-
-            if (shield > 100) { shield = 100; }
-
-            ShowHUD();
-        }
-        static void Revive()
-        {
-            if(health <= 0 && lives >= 1)
-            {
-                health = 100;
-                shield = 100;
-                --lives;
-            }
-
-            ShowHUD();
-        }
-            
-        static void TakeDamage(int damage)
-        {
-            if (damage < 0)
-            {
-                //Console.ForegroundColor = ConsoleColor.Red;
-                //Console.WriteLine("\nError detected: Damage can't be negative.");         
-                //Console.ResetColor();                                                     
-                ShowHUD(); 
-                return;
-            }
-
-            int damagedealt = damage;
-            shield -= damagedealt;
-            if (shield < 0)
-            {
-                int piercingDamage = -shield;
-                shield = 0;
-                health -= piercingDamage;
-            }
-            if (health < 0) { health = 0; }
-
-            ShowHUD();
-        }
         static void ShowHUD()
         {
-            Console.Clear();
-
             Console.WriteLine($"Shield: {shield}");
 
             Console.Write($"Health: {health}%"); //may remove the % depending on how it looks, brightspace said "(0..100%)"
@@ -337,6 +269,75 @@ namespace C__Health_System
             Console.WriteLine($"Lives: {lives}");
 
             Console.ReadKey();
+
+            Console.Clear();
+        }
+        static void TakeDamage(int damage)
+        {
+            if (damage < 0)
+            {
+                ShowHUD();
+                Console.ForegroundColor = ConsoleColor.Red;                         //I fought for three hours trying to make this work
+                Console.WriteLine("Error detected: Damage can't be negative.\n");
+                Console.ResetColor();
+                return;
+            }
+
+            ShowHUD();
+
+            int damagedealt = damage;
+            shield -= damagedealt;
+            if (shield < 0)
+            {
+                int piercingDamage = -shield;
+                shield = 0;
+                health -= piercingDamage;
+            }
+            if (health < 0) { health = 0; }
+        }
+        static void Heal(int hp)
+        {
+            if (hp < 0)
+            {
+                ShowHUD();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error detected: can't heal 0 health.\n");      
+                Console.ResetColor();                                             
+                return;
+            }
+
+            health += hp;
+
+            if (health > 100) health = 100;
+
+            ShowHUD();
+        }
+        static void RegenerateShield(int hp)
+        {
+            if (hp < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error detected: can't regenerate 0 shield.\n");
+                Console.ResetColor();
+                ShowHUD(); return;
+            }
+
+            shield += hp;
+
+            if (shield > 100) { shield = 100; }
+
+            ShowHUD();
+        }
+        static void Revive()
+        {
+            if(health <= 0 && lives >= 1)
+            {
+                health = 100;
+                shield = 100;
+                --lives;
+            }
+
+            ShowHUD();
         }
 
         static void ResetGame()
@@ -358,12 +359,6 @@ namespace C__Health_System
 //Code a health system (and an xp system) and showcase that it works.
 
 //In addition to showcasing your systems work, you must also incorporate provided unit test code -- copy the unit test methods I created for you into your own project. These unit test will assess your code -- this will determine your grade.
-
-//Revive() method (new!)
-//resets shield and health to default values
-//uses up one life (new!)
-//bringing a player back using a left-over life
-//should be called when you die
 
 //range checking = clamp variables to their ranges
 //error checking = handles (incorrectly) passing in negative numbers, such as TakeDamage(-10)
